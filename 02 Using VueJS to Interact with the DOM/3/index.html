@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vue JS</title>
+        <link rel="stylesheet" href=""> 
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 2-way data binding: Whenever there's a change in the input file, there will be a change in the 
+            data property and update it everywhere it's used in the code. -->
+            <!-- We can also use 2-way binding to update to do the both at the same time. -->
+            <input type="text" v-model="name">
+            <p>{{name}}</p>
+        </div>
+        <script>
+            new Vue({
+                    el: '#app',
+                data: {
+                    name: 'LuciKritZ'
+                }
+            });
+        </script>
+    <body>
+</html>
