@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vue JS</title>
+        <link rel="stylesheet" href=""> 
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button v-on:click="increase(2, $event)"> Click Me </button>
+            <!-- Single line commands can be performed on the event. The oly condition is that it should not contain
+            if or else statements or for loops -->
+            <button v-on:click="counter++"> Click Me </button>
+            <!-- Events -->
+
+            <!-- <p>{{ counter * 2 }}</p> -->
+
+            <!-- The statements can even contain terminary operations. -->
+            <p>{{ counter * 2 > 10 ? "Greater than 10" : "Lesser than 10"}}</p>
+            <p v-on:mousemove="updateCoordinates">
+                Coordinates: {{x}} / {{y}}
+                - <span v-on:mousemove.stop.prevent="">DEAD SPOT</span>
+            </p>
+            <!-- <input type="text" v-on:keyup.enter="showAlert"> -->
+            <!-- <input type="text" v-on:keyup="showAlert"> -->
+            <input type="text" v-on:keyup.enter.space="showAlert">
+        </div>
+        <script>
+            new Vue({
+                    el: '#app',
+                data: {
+                    counter: 0,
+                    x: 0,
+                    y: 0
+                },
+                methods: {
+                    increase: function(step, event) {
+                        this.counter += step;
+                    },
+                    updateCoordinates: function(event){ 
+                        this.x = event.clientX;
+                        this.y = event.clientY;
+                    },
+                    // Dummy function to stop the propagation so that the mouse hover doens't work on the dead spot.
+                    // dummy: function(){
+                    //     event.stopPropagation();
+                    // }
+                    showAlert: function(){
+                        // alert("Enter has been pressed.");
+                        // alert("You have removed your finger while typing.");
+                        alert("Enter or space has been pressed.");
+                    }
+                },
+            });
+        </script>
+    <body>
+</html>
