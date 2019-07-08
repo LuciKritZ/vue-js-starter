@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vue JS</title>
+        <link rel="stylesheet" href=""> 
+        <script src="vue.js"></script>
+        <style>
+            .demo{
+                width: 100px;
+                height: 100px;
+                background-color: gray;
+                display: inline-block;
+                margin: 10px;
+            }
+            
+            .red{
+                background-color: red;
+            }
+
+            .green{
+                background-color: green;
+            }
+
+            .blue{
+                background-color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- @click="attachRed = !attachRed" : just to turn on and off for css -->
+            <!-- :class="{red: attachRed}" : deciding the class i.e, if true, will take the CSS of the red class
+            and if it's false, it will not take the CSS of the red class. -->
+            <!-- <div class="demo" @click="attachRed = !attachRed" :class="{red: attachRed, blue: !attachReds}"></div> -->
+            <div class="demo" @click="attachRed = !attachRed" :class="divClasses"></div>
+            <!-- Making the template much cleaner now as we are using the javascript class and we don't need to change it
+            manually -->
+            <div class="demo" :class="{blue: attachBlue}"></div>
+            <div class="demo" :class="[color, {red: attachRed}]"></div>
+            <hr>
+            <!-- Input the color and change it dynamically -->
+            <input type="text" v-model="color">
+        </div>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    attachRed: false,
+                    attachBlue: false,
+                    // We can dynamically add the css in an array and change them dynamically with the help of v-model
+                    // in the input.
+                    color: 'green'
+                },
+                computed: {
+                    divClasses: function(){
+                        return {
+                            red: this.attachRed,
+                            blue: !this.attachRed
+                        }
+                    }
+                }
+            });
+        </script>
+    <body>
+</html>
