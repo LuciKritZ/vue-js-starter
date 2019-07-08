@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vue JS</title>
+        <link rel="stylesheet" href=""> 
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p><a :href="link">Google</a></p>
+            <!-- Some of the shortcuts:
+                1. We can use @ for v-on:
+                2. We can use : for v-bind: 
+            -->
+            <!-- Simple to update the counter for a simple application. -->
+            
+            <!-- <button v-on:click="increase">Increase</button> -->
+            <!-- <button v-on:click="decrease">Decrease</button> -->
+
+            <!-- <button v-on:click="counter++">Increase</button> -->
+            <button @click="counter++">Increase</button>
+            <button v-on:click="counter--">Decrease</button>
+            <!-- On adding a third partner -->
+            <button v-on:click="secondCounter++">Increase second counter</button>
+            <!-- VueJs will still update the page when the second button is clicked as the vueJs doesn't know 
+            if the result function that's being executed here, uses one of the properties that we have used.
+            As a result, there is reexcution of the method, which is not a problem for small functions. But, what 
+            if there's a large function that takes a lot of time and you don't want it to get executed everytime
+            there is a change in the property. That's where computed property comes. -->
+
+            <!-- The computed properties are nothing but Dependent Properties. It also allows us to store properties.
+             -->
+            
+            <!-- VueJs makes it much simpler to model cross property dependecies. -->
+
+            <!-- Both result and output looks same but there's a difference. The output function will not be called
+            when there's a change other than properties related to the output function. So, this is how computed
+            works. -->
+            
+            
+            <p>{{ counter }} | {{ secondCounter }}</p>
+            <!-- <p>{{ result() }}</p> -->
+            <p>{{ result() }} | {{ output }}</p>
+            <!-- Notice that we haven't used parenthesis, that's because every function in a computed will be used
+            as a property/object and not a function. -->
+            <!-- Result function gets called everytime. But, in the case of computed properties, it does analyze
+            the code and it is aware of this. -->
+
+            <!--There's another property called watch. Watch comes to picture when there is a need of a trigger
+            after some specific task. Some characteristics of Watch:
+                1. Watch can only perform operations on the objects which are present in the data property.
+                2. It allows to react to the changes.
+                3. Works as a trigger.
+                4. Has a callback function whenever a function gets called to react to changes.
+                5. We have to store the view instance in a separate variable to access all the methods and data objects.
+                6. Able to perform asynchronous tasks.
+             -->
+        </div>
+        <script>
+            new Vue({
+                    el: '#app',
+                data: {
+                    counter: 0,
+                    secondCounter: 0,
+                    link: "https://google.com",
+                    // result can not be shown by this.counter > 5 ? "Greater than 5" : "Lesser than 5."
+                },
+                computed: {
+                    output: function (){
+                        // It is like a function only, so it can be used as a function as well.
+                        // alert("Computed.");
+                        return this.counter > 5 ? "Greater than 5" : "Lesser than 5";
+                    }
+                },
+                watch: {
+                    counter: function(value){
+                        var vm = this;
+                        setTimeout(function(){
+                            vm.counter = 0;
+                        },2000);
+                        // This function will automatically set the counter to 0 right after 2 seconds when the counter's
+                        // value has changed.
+                    }
+                },
+                methods: {
+                    // No need of these functions
+                    // increase : function(){
+                    //     this.counter++;
+                    //     this.result = this.counter > 5 ? "Greater than 5" : "Lesser than 5";
+                    // },
+                    // decrease : function(){
+                    //     this.counter--;
+                    //     this.result = this.counter > 5 ? "Greater than 5" : "Lesser than 5";
+                    // }
+                    result: function(){
+                        // alert("Result.");
+                        return this.counter > 5 ? "Greater than 5" : "Lesser than 5";
+                    }
+                },
+            });
+        </script>
+    <body>
+</html>
