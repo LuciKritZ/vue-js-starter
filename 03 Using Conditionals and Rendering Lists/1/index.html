@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vue JS</title>
+        <link rel="stylesheet" href=""> 
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- When you use v-if the element doesn't get hidden or transparent, it just goes away
+            leaving a blank line. v-if completely removes the element from the DOM. -->
+            <!-- Every element present in the element gets removed, not just the one on which
+            the condition is applied. -->
+            <p v-if="show">
+                You can see me.
+                <span>Hello!</span>
+            </p>
+            <p v-else>Now you see me!</p>
+            <p>I can see you!.</p>
+            <button @click="show = !show">Switch</button>
+        </div>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    show: true
+                }
+            });
+        </script>
+    <body>
+</html>
