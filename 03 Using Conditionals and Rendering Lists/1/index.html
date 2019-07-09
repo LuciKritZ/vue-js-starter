@@ -17,8 +17,19 @@
                 You can see me.
                 <span>Hello!</span>
             </p>
+            <!-- Template tag doens't get rendered at the DOM.
+            Template is just used to group the particular elements together. Used for wrapping of elements.
+            We can use div but it may have some side effects. -->
+            <template v-if="show">
+                <p>Hello!</p>
+                <p>This is Krishal Shah.</p>
+            </template>
             <p v-else>Now you see me!</p>
             <p>I can see you!.</p>
+            <!-- In case you want to just hide the element and not completely remove the element from the DOM, we can
+            use v-show. It is same as v-if but it doesn't remove the elements completely.
+            It just add display:none to the element. -->
+            <p v-show="show">Hello!</p>
             <button @click="show = !show">Switch</button>
         </div>
         <script>
@@ -26,7 +37,7 @@
                 el: '#app',
                 data: {
                     show: true
-                }
+                },
             });
         </script>
     <body>
