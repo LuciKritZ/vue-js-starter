@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vue JS</title>
+        <link rel="stylesheet" href=""> 
+        <script src="vue.js"></script>
+        <style>
+            .template {
+                border-width: 1;
+                border-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- We will now use v-for directive for iterating over a list in an array or a json object. -->
+            <!-- We can achieve this with a few lines of code. -->
+            <ul v-if="show">
+                <li v-for="codeEditor in codeEditors">{{ codeEditor }}</li>
+            </ul>
+            <!-- If we want to display the element along with the index of the item in the array, we can use index.
+            Note: index shows the index of any data in an array and so it starts with 0.
+            You can use index + 1 if you want to make it more user friendly and understandable for users. -->
+            <ul v-if="show">
+                <li v-for="(codeEditor, index) in codeEditors">{{ codeEditor }} ({{ index }})</li>
+            </ul>
+
+            <!-- If we don't want to use lists, and instead we want to use the elements along with their index,
+            we can use template tag. It helps to use template with non nested elements with loop.
+            Example is shown below: -->
+            <template v-if="show" v-for="(codeEditor, index) in codeEditors">
+                <h1>{{ codeEditor }}</h1>
+                <p>{{ index }}</p>
+            </template>
+
+            <!-- If we want to loop for objects in array, we can do it too using v-for. We can also loop through
+            objects out of the nested loop, though.
+            -->
+
+            <ul v-if="show">
+                <li v-for="person in people">
+                    <div v-for="(value, key, index) in person">
+                        <!-- Value is the first element, key is the second element and index comes in the last.
+                        Order is important and value, key & index are in literal meaning.
+                        We have used index +1 for making it more user-friendly. -->
+                        {{index + 1}}.&nbsp;{{ key }}: {{value}}
+                    </div>
+                    <hr>
+                </li>
+            </ul>
+
+            <ul v-if="show">
+                <li v-for="person in people">
+                    <div v-for="value in person">
+                        <!-- In case we just want to show the values and not the key, we can do this way. -->
+                        {{ value}}
+                    </div>
+                    <hr>
+                </li>
+            </ul>
+
+            <!-- For iterating or looping through a list of numbers. Change the number in the loop according to
+            the requirements. -->
+            <ul v-if="show">
+                <li v-for="n in 10">{{ n }}</li>
+            </ul>
+
+            <!-- VueJs keeps track of the index of the array even when there is no change in the array automatically.
+            For example, let's use push for an array using button.
+            It updates the array by simply changing the position of the array. If you want to be super safe
+            and you not only want VueJs to be aware of the position as well as the actual list item it has to work on, 
+            then you may want to use, we need to assign a unique key to that list item. It can be used by v-bind syntax
+            and adding key to the list. We need to pass the unique key and a better key is always be a real
+            unique value. -->
+            <ul>
+                <li v-for="codeEditor in codeEditors" :key="codeEditor">
+                    {{ codeEditor }}
+                    <!-- So now the VueJs keeps track of the element itself. Whenever there is a situation to update
+                    or reorder them, it will take the actual element and reorder it and not just override some
+                    values in the array. -->
+
+                    <!-- IMPORTANT: If you run into some really strange bugs where there is wrong updation of value
+                    or ordering or overwriting of values, make sure to give your looping a key. -->
+                </li>
+            </ul>
+            <button @click="codeEditors.push('Notepad++')">Click to add.</button>
+        </div>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    codeEditors: ['VScode', 'Atom', 'Sublime Text', 'Brackets'],
+                    show: false,
+                    people: [
+                        {Name: 'Krishal', Age: 21, Technology: 'full stack'},
+                        {Name: 'Nikul', Age: 21, Technology: 'full stack'},
+                        {Name: 'Rippal', Age: 21, Technology: 'back end'},
+                        {Name: 'Megha', Age: 21, Technology: 'QA'},
+                        {Name: 'Fiza', Age: 21, Technology: 'QA'},
+                    ]
+                },
+            });
+        </script>
+    <body>
+</html>
+
+<!-- We are now done with the Conditioning and rendering lists. -->
