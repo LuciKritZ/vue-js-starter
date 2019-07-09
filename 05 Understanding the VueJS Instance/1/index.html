@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Vue JS</title>
+      <link rel="stylesheet" href=""> 
+      <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app1">
+      <h1 ref="heading">{{ title }}</h1>
+      <button v-on:click="show">Show Paragraph</button>
+      <p v-if="showParagraph">This is not always visible</p>
+    </div>
+
+    <!-- You can see multiple Vue instances in the single page. -->
+    <div id="app2">
+      <h1 ref="heading">{{ title }}</h1>
+      <button @click="onChange">Change something in vue 1.</button>
+    </div>
+
+    <script>
+      var data = {
+        title: 'The VueJS Instance',
+        showParagraph: false
+      }
+
+      var vm1 = new Vue({
+      el: '#app1',
+      data: data,
+      methods: {
+        show: function() {
+          this.showParagraph = true;
+          this.updateTitle('The VueJS Instance (Updated)');
+        },
+        updateTitle: function(title) {
+          this.title = title;
+        }
+      },
+      computed: {
+        lowercaseTitle: function() {
+          return this.title.toLowerCase();
+        }
+      },
+      watch: {
+        title: function(value) {
+          alert('Title changed, new value: ' + value);
+        }
+      }
+    });
+
+    // We can change the properties of an instance outside the function by declaring the variables of an instance.
+    // We generally name the instances vm i.e. vue model
+    // 
+
+    // Changing the title outside of the instances.
+    // setTimeout(function(){
+    //   vm1.title = 'Changed by the title ';
+    // },3000);
+
+    console.log(vm1.$data.title);
+
+    if(vm1.$data === data){
+      console.log("Matched!")
+    }
+
+    var vm2 = new Vue({
+      el: '#app2',
+      data: {
+        title: 'Instance 2 Title'
+      },
+      methods:{
+        onChange: function(){
+          vm1.title = 'Changed';
+          // You can change or access the properties of one instance in another instance.
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
+
+<!-- $el: El refers to the element or the instance that relates to the HTML template or div tag. -->
+<!-- $data: It refers to the data tag in the elements and it can be accessed by $data in the scripting. -->
