@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Vue JS</title>
+      <link rel="stylesheet" href=""> 
+      <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1 ref="heading">{{ title }}</h1>
+      <button v-on:click="title = 'Check console to see the methods that get called.'">
+        Click here to see update life cycle methods.
+      </button>
+      <button @click="destroy">Destroy the instance and check the console.</button>
+    </div>
+    
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          title: "The Vue JS Instance life cycle."
+        },
+        // Make sure that all the life cycle methods will not fall in methods object.
+        // You have to define all the life cycle methods just the way you have defined the data and el objects.
+        // All the life cycle methods are listed here.
+
+        // The starting four functions will get called and it totally makes sense as these are needed to mount the 
+        // div in the DOM.
+        beforeCreate() {
+          console.log("beforeCreate()");
+        },
+        created() {
+          console.log("created()");
+        },
+        beforeMount() {
+          console.log("beforeMount()");
+        },
+        mounted() {
+          console.log("mounted()");
+        },
+
+        // When the button to update the title will get pressed, the two methods listed below will be called as
+        // there is an update in the title.
+        beforeUpdate() {
+          console.log("beforeUpdated()");
+        },
+        updated() {
+          console.log("updated()");
+        },
+        // If you hit the update button again, nothing will happen because, as discussed earlier, in Vue JS
+        // DOM is being compared to the virtual DOM, and the Virtual DOM has nothing to change in the real DOM.
+
+        // Now if you click the destroy button, these two methods will be called as the instance is destroyed.
+        // Interestingly, if you reload the page and click the destroy button first and then press update button,
+        // nothing will happen, as the Vue JS instance is destroyed/gone and so,
+        // and so, it can not relate to the component in the DOM.
+        beforeDestroy() {
+          console.log("beforeDestroy()");
+        },
+        destroyed() {
+          console.log("destroyed()");
+        },
+        methods: {
+          destroy: function(){
+            // This function will be called for destroying the instance.
+            this.$destroy();
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
+
+<!-- Understanding the Vue JS Instance Lifecycle:
+  1. new Vue(): When the Vue instance is declared.
+  2. beforeCreated(): This life cycle method gets called before the instance is created.
+  3. Inititalise the Data and Events: Initialisation of the data and events is done here. 
+  4. created(): The created() life cycle method gets called after the instance is created.
+  5. Compile template or $el's template: The template is compiled with all the data and events given to the instance.
+  6. beforeMount(): beforeMount() lifecycle method gets called whenever the component is about to get mounted.
+  7. Mounted to DOM: Then the component gets mounted in the DOM.
+  ----- IF THE DATA GETS UPDATED -----
+  8. Data Changed: When the data gets changed, another life cycle method is called which is,
+  9. beforeUpdate(): This gets called when the data is about to get changed. 
+  10. Re-render DOM: The DOM gets re-rendered after the data has been changed.
+  11. updated(): The data that has been updated can be seen in the DOM.
+  12. Mounted to DOM: Then the component again gets mounted to the DOM.
+
+  ----- AT THE TIME OF DELETION ----- 
+  13. beforeDestroy(): This life cycle method gets called right before the deletion of the instance or the component.
+  14. DESTROYED: Now, the component gets destroyed.
+  15. destroyed(): This life cycle method gets called after the successful deletion of the instance or the component.
+-->
+
+
+<!-- So this is how Vue JS works behind the scenes and how the data gets updated. -->

@@ -10,7 +10,9 @@
   <body>
     <div id="app1">
       <h1 ref="heading">{{ title }}</h1>
-      <button v-on:click="show">Show Paragraph</button>
+      <!-- <button v-on:click="show">Show Paragraph</button> -->
+      <!-- Usage of $refs in the VueJs -->
+      <button v-on:click="show" ref="myButton">Show Paragraph</button>
       <p v-if="showParagraph">This is not always visible</p>
     </div>
 
@@ -18,21 +20,45 @@
     <div id="app2">
       <h1 ref="heading">{{ title }}</h1>
       <button @click="onChange">Change something in vue 1.</button>
+
+      <!-- Using reusable component defined by the instance of the Vue JS.. -->
+      <!-- <hello></hello> -->
+      <!-- <hello></hello> -->
     </div>
 
+    <!-- Now, we will create an empty div and give the full control to Vue JS -->
+    <div id="app3">
+
+    </div>
+
+    <!-- Now we will dive deeper into components section and learn how to create a resuable component
+    with whatever name you want, doesn't have to be an HTML tag and we can still use it. -->
+
     <script>
+      // We can create a resuable component by making an instance of a different Vue JS and then by
+      // declaring it in the HTML code. It has some limitations which we will see later on.
+      // To create a new component, we can do it by:
+      // Vue.component('hello', {
+      //   template: '<h1>Hello!</h1>'
+      // });
+
       var data = {
         title: 'The VueJS Instance',
         showParagraph: false
       }
 
       var vm1 = new Vue({
-      el: '#app1',
+      // el: '#app1',
+      // Here we are removing the $el property cause there may come a time where everything is decided except
+      // when and where in the division will it take place. In that case, you can just remove the el property and
+      // define it somewhere in the code when needed. For example,
       data: data,
       methods: {
         show: function() {
           this.showParagraph = true;
           this.updateTitle('The VueJS Instance (Updated)');
+          this.$refs.myButton.innerText="Changed by $ref";
+          this.$refs.heading.innerText = "Changed heading by $ref"
         },
         updateTitle: function(title) {
           this.title = title;
@@ -50,6 +76,11 @@
       }
     });
 
+    // And here we can give the $el property using the $mount() method or function. Here, we can give a mount property
+    // to load it for div1. In arguments, pass the id of the div or the template you want to control.
+
+    vm1.$mount('#app1')
+
     // We can change the properties of an instance outside the function by declaring the variables of an instance.
     // We generally name the instances vm i.e. vue model
     // 
@@ -65,6 +96,8 @@
       console.log("Matched!")
     }
 
+    console.log(vm1.$refs)
+
     var vm2 = new Vue({
       el: '#app2',
       data: {
@@ -77,9 +110,66 @@
         }
       }
     });
+
+    // Here, we will control the app3 div element by Vue JS
+    var vm3 = new Vue({
+      // We can use template when we want to want to define our own HTML elements controlled by the Vue JS.
+      // We can not write multi line code here and this is one of the limitation of this.
+      template: '<h1>This is controlled by Vue JS.</h1>'
+    });
+
+    // We will mount the new vm3 using $mount function.
+    // vm3.$mount('#app3');
+
+    // The other way to mount it, is by using the Vanilla JS.
+    // At first, we can just mount the new instance, so that it gets rendered.
+    vm3.$mount();
+    // And then we can do it by Vanilla JS by appendChild to append $el property to our instance.
+    document.getElementById('app3').appendChild(vm3.$el);
+
+    // This is the pretty advanced stuff and we don't use it normally as Vue JS do it for us pretty easily.
+    // This is just for the knowledge. There are a lot of limitations to using the template separately.
     </script>
   </body>
 </html>
 
 <!-- $el: El refers to the element or the instance that relates to the HTML template or div tag. -->
 <!-- $data: It refers to the data tag in the elements and it can be accessed by $data in the scripting. -->
+<!-- It is okay to combine both Vanilla JS and Vue JS, but the only thing you have to kepe in mind is that
+you shouldn't perform or control the HTML with both the Vue Js and Vanilla Js as they can react separately
+and then it may lead to poor reactivity of the application. -->
+
+<!-- We can use refs to interact with the HTML, but one thing to keep in mind is that it just overwrites the code
+and doesn't save it. So, if you reload the page, the changes will not be updated, as there's nothing to do with the 
+state and it's data. -->
+
+<!-- So this is the version of the Vue where there is no compiler. There's a different version of Vue too, 
+which includes the prebuilt compiler and it can reduce our efforts too. -->
+
+
+<!-- How Vue JS updates the DOM?
+Vue JS creates a virtual DOM where it loads all the compiled code of a Vue instance and the real DOPM and whenever there
+is a change in the state or the data, the Virtaul DOM is compared with the data and gets updated and
+then it compares itself with the original DOM and updates it as well.
+The change detection happens with the help of the Watchers. This makes Vue JS with very performent and very fast. -->
+
+<!-- Understanding the Vue JS Instance Lifecycle:
+  1. new Vue(): When the Vue instance is declared.
+  2. beforeCreated(): This life cycle method gets called before the instance is created.
+  3. Inititalise the Data and Events: Initialisation of the data and events is done here. 
+  4. created(): The created() life cycle method gets called after the instance is created.
+  5. Compile template or $el's template: The template is compiled with all the data and events given to the instance.
+  6. beforeMount(): beforeMount() lifecycle method gets called whenever the component is about to get mounted.
+  7. Mounted to DOM: Then the component gets mounted in the DOM.
+  ----- IF THE DATA GETS UPDATED -----
+  8. Data Changed: When the data gets changed, another life cycle method is called which is,
+  9. beforeUpdate(): This gets called when the data is about to get changed. 
+  10. Re-render DOM: The DOM gets re-rendered after the data has been changed.
+  11. updated(): The data that has been updated can be seen in the DOM.
+  12. Mounted to DOM: Then the component again gets mounted to the DOM.
+
+  ----- AT THE TIME OF DELETION ----- 
+  13. beforeDestroy(): This life cycle method gets called right before the deletion of the instance or the component.
+  14. DESTROYED: Now, the component gets destroyed.
+  15. destroyed(): This life cycle method gets called after the successful deletion of the instance or the component.
+-->
