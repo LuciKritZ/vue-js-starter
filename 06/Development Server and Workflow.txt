@@ -48,3 +48,29 @@
     -> browserify/ browserify-simple: It can be used but there are again based on the requirements and here, we need
         webpack-simple.
     Note: All the templates support the single file templates except the simple template.
+
+-> Installation and setting up:
+    1. vue init webpack-simple nameOfTheProject
+    2. cd nameOfTheProject
+    3. npm install
+    4. npm run dev
+    5. npm run build (Builds the production application)
+
+-> File Structure:
+    1. src: This is where we will write all the source code.
+    2. .babelrc: It sets up babel which is a transpiler allowing us to write ES6 code i.e, next version of JS.
+        The transpiler will transport to erase ES5 codes that will be able to run in any browser.
+    3. .gitignore: For git version controlling.
+    4. index.html: The file that gets served in the end that runs on the localhost:8080 at the start. Basic HTML
+        and the script is imported 'build.js'. It will compile everything and store in dist folder which then gets
+        bundled which also means that we will be able to split up multiple files or Vue JS code and it will be bundled
+        into a single file. 
+        -> dist folder can't be seen in the start. All of this is created in the memory of your machine. We will have to 
+            build it for production to use it. 
+    5. package.js: It manages all the dependencies.
+        vue-loader is important because it is used to write the single file template. 
+    6. webpack.config.js: It's responsible for building everything and transpiling our code, setting up our build process
+        and knows how to handle their friend files.
+        For example, vue file should load with vue loader.
+
+-> 
