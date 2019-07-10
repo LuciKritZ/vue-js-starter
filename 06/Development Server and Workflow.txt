@@ -1,0 +1,50 @@
+-> Workflow should have a build process which should optimise our code.
+-> We need a development server. Why?
+    It runs in the browser. It runs in the client but in the end if you visit a page which uses Vue js,
+    it needs a server anyway. You'll have to fetch it from some server. And so, we want to test for such
+    circumstances. The file protocol used when we run our index.html file doesn't have the same protocols
+    of the HTTP protocol. But, we need to access our Vue JS through HTTP and for that, we need a server
+    even when it runs on our machine, we need a server that understands HTTP protocol. And hence, we will
+    be able to test under more realistic circumstances.
+    Also, there are cases when the data doesn't get fetched unless clicked or any event has been performed,
+    so at that time, we need to use server.
+    We are not going to code the server. We will use lightweight development server. This will also give use
+    some additional benefits like auto reloading.
+
+-> Development Workflow:
+    When we want to use multiple imports and multiple scripts, and we want to bundle them together, it would
+    be very complex while using the normal version i.e, the importing the vue file one. This usually doesn't
+    work for medium sized and large sized applications. At that we can use development workflow. It can offer
+    us some special features such as
+        -> Compile Single File Templates (don't use "template"!)
+        -> Case-sensitive Component Selectors
+        -> Preprocessors and more...
+    We can even create single file templates using development workflow.
+    ---- SINGLE FILE TEMPLATES ----
+    Single File template are a powerful alternative for using the $el property and inferring a template
+    from the DOM or the template property.
+    It's basically the template outsourced into a separate file and the workflow we'll be using has a certain
+    tool in it which understands the single file templates and is able to combine them. We have been using a set up
+    where everything gets compiled in the browser. So now, we will get rid of the compiler and we are shipping the 
+    finished code.
+
+    ---- CASE-INSENSITIVE COMPONENT SELECTORS AND PREPROCESSORS ----
+    This will also allow us to use case insensitive component selector. And we can apply some preprocessors like
+    babel to use ES 6 code or to compile SASS to CSS to compile them. 
+
+    Not only this, it will allow us to shrink the size of the Vue JS code that we shipped to the server. 
+    // Side effect: Compiler removed from VueJS package => 30% reduced Package size.
+
+-> Template Compilation:
+    VueJS Project Templates
+    npm install -g vue-cli
+
+    Different types of templates:
+    -> simple: Contains single HTML file and Vue CDN import. (Good for small sized applications.)
+    -> webpack-simple: It will recompile the single file templates which allows us to use the ES6 and gives us
+        a nice production ready application.
+    -> webpack: a big package of testing and other next level features, we can use webpack version. It includes 
+        CSS processing and testing.
+    -> browserify/ browserify-simple: It can be used but there are again based on the requirements and here, we need
+        webpack-simple.
+    Note: All the templates support the single file templates except the simple template.
