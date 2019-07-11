@@ -4,13 +4,16 @@
         <p>Many Details</p>
         <!-- This is where the change will occur. So, now we are passing the data from the parent to the child. -->
         <p>User name: {{ switchName() }}</p>
-        <button @click="resetName()">Reset the name</button>
+        <p>User age: {{userAge}}</p>
+        <button @click="resetName">Reset the name</button>
+        <button @click="resetFn()">Reset the name</button>
     </div>
 </template>
 
 <script>
     // For transferring data from parent component to child component, we use props.
     // It's a short form of properties and it basically means properties set from outside, that is from parent.
+    import { eventBus } from '../main';
     export default{
         props: {
             // Declaring the datatype of the prop is possible here.
@@ -25,7 +28,7 @@
             myName: {
                 type: String,
                 // required: true
-                default: 'Krystal'
+                // default: 'Krystal'
                 // We can set the default in case it's not compulsary to pass the property or if the required is set to false.
 
                 // Now, if we set the type to be an object, then default should always be a function.
@@ -33,7 +36,10 @@
                 // default: function(){
                 //     name: 'Max'
                 // }
-            }
+            },
+            // So we can pass the property from child to parent without custom event too.
+            resetFn: Function,
+            userAge: Number
         },
         methods: {
             // We can use the props in methods too like a normal variable or a data object.
@@ -46,6 +52,11 @@
                 // as we need to fire a custom event. And to fire a custom event, we can use $emit();
                 this.$emit('nameWasReset', this.myName);
             }
+        },
+        created() {
+            eventBus.$on('ageWasEdited', (age) => {
+                this.userAge = age;
+            });
         },
     }
 </script>
