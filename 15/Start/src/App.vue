@@ -13,6 +13,8 @@
                 </div>
                 <button @click="submit" class="btn btn-primary">Submit</button>
                 <hr>
+                <input v-model="node" type="text" class="form-control">
+                <br><br>
                 <button class="btn btn-primary" @click="fetchData">Get Data</button>
                 <br><br>
                 <ul class="list-grou">
@@ -34,7 +36,8 @@
                     email: ''
                 },
                 users: [],
-                resource: {}
+                resource: {},
+                node: 'data'
             }
         },
         created() {
@@ -42,9 +45,10 @@
             // in a centralized place. For example, we can store the resources here in created or we can simply
             // store it in a more centralized place that is in the main.js
             const customActions = {
-                saveAlt: {method: 'POST', url: 'alternative.json'}
+                saveAlt: {method: 'POST', url: 'alternative.json'},
+                getData: {method: 'GET'}
             }
-            this.resource = this.$resource('data.json', {}, customActions);
+            this.resource = this.$resource('{node}.json', {}, customActions);
         },
         methods: {
             submit(){
@@ -63,7 +67,23 @@
                 this.resource.saveAlt(this.user);
             },
             fetchData(){
-                this.$http.get('')
+                // Removing the normal $http request with the resource
+                // this.$http.get('')
+                //     .then(response => {
+                //         // .json() method basically extracts all your responses and converts them 
+                //         // into the javascript which you may use.
+                //         return response.json();
+                //     })
+                //     .then(data => {
+                //         const resultArray = [];
+                //         for(let key in data){
+                //             resultArray.push(data[key])
+                //         }
+                //         this.users = resultArray
+                //     });
+
+                // Using the getData resource that we have created in the created method.
+                this.resource.getData({node: this.node})
                     .then(response => {
                         // .json() method basically extracts all your responses and converts them 
                         // into the javascript which you may use.
