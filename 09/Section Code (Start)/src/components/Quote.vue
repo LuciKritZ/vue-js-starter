@@ -31,7 +31,6 @@
         margin: 30px auto;
         text-align: center
     }
-
     /* The first key takeaway:
         h2 is used in App.vue and whatever CSS we apply, gets applied to the data that we get from the parent file.
         The style of only child applies. If we apply the CSS in the App.vue file, it won't take any CSS.

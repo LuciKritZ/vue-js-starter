@@ -33,21 +33,37 @@
                     username: '',
                     email: ''
                 },
-                users: []
+                users: [],
+                resource: {}
             }
+        },
+        created() {
+            // So now we can create all the resources in the customActions and we can use it as many times as we want
+            // in a centralized place. For example, we can store the resources here in created or we can simply
+            // store it in a more centralized place that is in the main.js
+            const customActions = {
+                saveAlt: {method: 'POST', url: 'alternative.json'}
+            }
+            this.resource = this.$resource('data.json', {}, customActions);
         },
         methods: {
             submit(){
                 // $http was added by VueResource.
-                this.$http.post('https://vuejs-http-6f91e.firebaseio.com/data.json', this.user)
-                    .then(response => {
-                        console.log(response)
-                    }, error => {
-                        console.log(error)
-                    });
+                // this.$http.post('', this.user)
+                //     .then(response => {
+                //         console.log(response)
+                //     }, error => {
+                //         console.log(error)
+                //     });
+
+                // Using resources to save some lines of code and memory.
+                // this.resource.save({}, this.user);
+
+                // using customActions:
+                this.resource.saveAlt(this.user);
             },
             fetchData(){
-                this.$http.get('https://vuejs-http-6f91e.firebaseio.com/data.json')
+                this.$http.get('')
                     .then(response => {
                         // .json() method basically extracts all your responses and converts them 
                         // into the javascript which you may use.
