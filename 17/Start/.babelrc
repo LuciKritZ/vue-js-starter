@@ -1,0 +1,7 @@
+{
+  "presets": [
+    ["es2015", { "modules": false }],
+    // changes in here to recognize the rest and the spread operator.
+    ["stage-2"]
+  ]
+}
